@@ -71,7 +71,7 @@ def test_migration_table_integrity(inspector):
 
 
 def test_models_table_content(session):
-    # compare the models table content with the expected content
+    # compare the configurations table content with the expected content
     expected_content = [
         _get_content_from_orm_object(elem, skip_columns=[ConfigurationsTable.updated_at.key])
         for elem in configurations_table_content
@@ -89,7 +89,6 @@ def test_models_table_content(session):
 
 def test_models_table_constraints(session):
     # validate that only one row holds status "on" for each service
-    # monkeypatch the server_default property of Column
     distinct_on_versions = (
         session.query(ConfigurationsTable.service, ConfigurationsTable.version)
         .filter(ConfigurationsTable.status == "on")
